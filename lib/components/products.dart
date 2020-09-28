@@ -129,7 +129,7 @@ class _ProductsState extends State<Products> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: Container(),
             );
           }
           return GridView.builder(
