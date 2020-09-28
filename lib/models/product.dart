@@ -16,7 +16,7 @@ class Product {
   String _name;
   String _category;
   String _brand;
-  int _price;
+  double _price;
   int _quantity;
   List _sizes;
   List _images;
@@ -28,7 +28,7 @@ class Product {
   String get name => _name;
   String get category => _category;
   String get brand => _brand;
-  int get price => _price;
+  double get price => _price;
   int get quantity => _quantity;
   List get sizes => _sizes;
   List get images => _images;

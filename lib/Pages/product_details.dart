@@ -48,7 +48,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Container(
                 color: Colors.white,
                 child: Center(
-                  child: Image.asset(
+                  child: Image.network(
                     widget.prod_detail_picture,
                   ),
                 ),
