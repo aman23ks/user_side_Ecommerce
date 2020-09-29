@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/Home.dart';
 
 import 'Pages/Splash.dart';
-import 'Pages/login.dart';
 import 'Provider/app_provider.dart';
 import 'Provider/user_provider.dart';
 
@@ -36,11 +35,11 @@ class ScreenController extends StatelessWidget {
         return Splash();
       case Status.Unauthenticated:
       case Status.Authenticating:
-        return Login();
+        return HomePage();
       case Status.Authenticated:
         return HomePage();
       default:
-        return Login();
+        return HomePage();
     }
   }
 }

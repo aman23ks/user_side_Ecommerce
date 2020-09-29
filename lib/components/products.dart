@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/product_details.dart';
-import 'package:shopapp_flutter/Provider/app_provider.dart';
 import 'package:shopapp_flutter/models/product.dart';
 
 class Products extends StatefulWidget {
@@ -83,7 +81,6 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider = Provider.of<AppProvider>(context);
 //    return GridView.builder(
 //        itemCount: productList.length,
 //        gridDelegate:
@@ -125,7 +122,7 @@ class _ProductsState extends State<Products> {
 //      },
 //    );
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('products').snapshots(),
+        stream: FirebaseFirestore.instance.collection("products").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -175,7 +172,7 @@ class Single_prod extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => ProductDetails(
                         prod_detail_name: product.name,
-                        prod_detail_old_price: product.brand,
+                        prod_brand: product.brand,
                         prod_detail_picture: product.images[0],
                         prod_detail_price: product.price.toString(),
                       )));
@@ -194,11 +191,11 @@ class Single_prod extends StatelessWidget {
                         color: Colors.red, fontWeight: FontWeight.w800),
                   ),
                   subtitle: Text(
-                    "\$" + product.brand,
+                    product.brand,
                     style: TextStyle(
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w800,
-                        decoration: TextDecoration.lineThrough),
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ),
