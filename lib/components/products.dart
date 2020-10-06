@@ -121,6 +121,7 @@ class _ProductsState extends State<Products> {
 //        }
 //      },
 //    );
+
     return StreamBuilder(
         stream: FirebaseFirestore.instance.collection("products").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -175,6 +176,7 @@ class Single_prod extends StatelessWidget {
                         prod_brand: product.brand,
                         prod_detail_picture: product.images[0],
                         prod_detail_price: product.price.toString(),
+                        prod_description: product.description,
                       )));
             },
             child: GridTile(

@@ -11,6 +11,7 @@ class Product {
   static const IMAGES = "images";
   static const FEATURED = "featured";
   static const SALE = "sale";
+  static const DESCRIPTION = "description";
 
   String _id;
   String _name;
@@ -22,6 +23,7 @@ class Product {
   List _images;
   bool _featured;
   bool _sale;
+  String _description;
 
 //getters
   String get id => _id;
@@ -34,6 +36,7 @@ class Product {
   List get images => _images;
   bool get featured => _featured;
   bool get sale => _sale;
+  String get description => _description;
 
   Product.fromSnapshot(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
@@ -47,5 +50,6 @@ class Product {
     _images = data[IMAGES];
     _featured = data[FEATURED];
     _sale = data[SALE];
+    _description = data[DESCRIPTION];
   }
 }
