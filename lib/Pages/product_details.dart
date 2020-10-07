@@ -11,13 +11,16 @@ class ProductDetails extends StatefulWidget {
   final prod_detail_picture;
   final prod_description;
   final prod_sizes;
-  ProductDetails(
-      {this.prod_detail_name,
-      this.prod_brand,
-      this.prod_detail_picture,
-      this.prod_detail_price,
-      this.prod_description,
-      this.prod_sizes});
+  final prod_quantity;
+  ProductDetails({
+    this.prod_detail_name,
+    this.prod_brand,
+    this.prod_detail_picture,
+    this.prod_detail_price,
+    this.prod_description,
+    this.prod_sizes,
+    this.prod_quantity,
+  });
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
@@ -105,81 +108,42 @@ class _ProductDetailsState extends State<ProductDetails> {
                   elevation: 0.2,
                   color: Colors.white,
                   onPressed: () {
-//                    return showDialog(
-//                        context: context,
-//                        builder: (context) {
-//                          print(widget.prod_sizes);
-//                          return Dialog(
-//                            shape: RoundedRectangleBorder(
-//                                borderRadius: BorderRadius.circular(5.0)),
-//                            child: Container(
-//                              height: 500,
-//                              width: MediaQuery.of(context).size.width,
-//                              child: Row(
-//                                children: <Widget>[
-//                                  Text('Choose a size'),
-//                                  ListView.builder(
-//                                      itemCount: widget.prod_sizes.length,
-//                                      itemBuilder:
-//                                          (BuildContext context, int index) {
-//                                        return Text("Hello");
-//                                      }),
-//                                ],
-//                              ),
-//                            ),
-//                          );
-////                          return SimpleDialog(
-////                            title: Text('Size'),
-//////                            content: Text('Choose the size'),
-////                            children: <Widget>[
-////                              Text('Choose the size'),
-////                              ListView.builder(
-////                                  itemCount: widget.prod_sizes.length,
-////                                  itemBuilder: (BuildContext context, index) {
-////                                    return SimpleDialogOption(
-////                                      child: Text(widget.prod_sizes[index]),
-////                                    );
-////                                  }),
-////                            ],
-////                            actions: <Widget>[
-////                              MaterialButton(
-////                                onPressed: () {
-////                                  Navigator.pop(context);
-////                                },
-////                                child: Text(
-////                                  'close',
-////                                  style: TextStyle(
-////                                    color: Colors.red,
-////                                  ),
-////                                ),
-////                              ),
-////                            ],
-////                          );
-//                        });
-                    showDialog(
+                    var sizes = widget.prod_sizes;
+                    showGeneralDialog(
                         context: context,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            elevation: 24.0,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height - 450,
-                              width: MediaQuery.of(context).size.width - 50,
-                              child: Padding(
-                                  padding: EdgeInsets.all(13.0),
-                                  child: ListView.builder(
-                                      itemCount: widget.prod_sizes.length,
-                                      itemBuilder: (_, index) {
-                                        return FlatButton(
-                                          onPressed: () {},
-                                          child: Text(widget.prod_sizes[index]),
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.padded,
-                                        );
-                                      })),
-                            ),
-                          );
+                        pageBuilder: (context, anim1, anim2) {},
+                        barrierDismissible: true,
+                        barrierColor: Colors.black.withOpacity(0.4),
+                        barrierLabel: '',
+                        transitionDuration: Duration(milliseconds: 1000),
+                        transitionBuilder: (context, a1, a2, widget) {
+                          final curvedValue =
+                              Curves.easeInOutBack.transform(a1.value) - 1.0;
+                          return Transform(
+                              transform: Matrix4.translationValues(
+                                  0.0, curvedValue * -200, 0.0),
+                              child: Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                elevation: 24.0,
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height - 450,
+                                  width: MediaQuery.of(context).size.width - 50,
+                                  child: Padding(
+                                      padding: EdgeInsets.all(13.0),
+                                      child: ListView.builder(
+                                          itemCount: sizes.length,
+                                          itemBuilder: (_, index) {
+                                            return FlatButton(
+                                              onPressed: () {},
+                                              child: Text(sizes[index]),
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize.padded,
+                                            );
+                                          })),
+                                ),
+                              ));
                         });
                   },
                   textColor: Colors.grey,
@@ -227,42 +191,42 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
               ),
-              Expanded(
-                child: MaterialButton(
-                  elevation: 0.2,
-                  color: Colors.white,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Quantity'),
-                            content: Text('Choose the quantity'),
-                            actions: <Widget>[
-                              MaterialButton(
-                                child: Text(
-                                  'Close',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  textColor: Colors.grey,
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(child: Text('Qty')),
-                      Expanded(child: Icon(Icons.arrow_drop_down)),
-                    ],
-                  ),
-                ),
-              ),
+//              Expanded(
+//                child: MaterialButton(
+//                  elevation: 0.2,
+//                  color: Colors.white,
+//                  onPressed: () {
+//                    showDialog(
+//                        context: context,
+//                        builder: (context) {
+//                          return AlertDialog(
+//                            title: Text('Quantity'),
+//                            content: Text('Choose the quantity'),
+//                            actions: <Widget>[
+//                              MaterialButton(
+//                                child: Text(
+//                                  'Close',
+//                                  style: TextStyle(
+//                                    color: Colors.red,
+//                                  ),
+//                                ),
+//                                onPressed: () {
+//                                  Navigator.pop(context);
+//                                },
+//                              ),
+//                            ],
+//                          );
+//                        });
+//                  },
+//                  textColor: Colors.grey,
+//                  child: Row(
+//                    children: <Widget>[
+//                      Expanded(child: Text('Qty')),
+//                      Expanded(child: Icon(Icons.arrow_drop_down)),
+//                    ],
+//                  ),
+//                ),
+//              ),
             ],
           ),
           //Second row of buttons
@@ -277,12 +241,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               IconButton(
+                onPressed: () {},
                 icon: Icon(
                   Icons.add_shopping_cart,
                   color: Colors.red,
                 ),
               ),
               IconButton(
+                onPressed: () {},
                 icon: Icon(
                   Icons.favorite_border,
                   color: Colors.red,
@@ -337,7 +303,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Padding(
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
                 child: Text(
-                  'Product Condition',
+                  'Product Condition ',
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
@@ -345,6 +311,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
                 child: Text(
                   'NEW',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
+                child: Text(
+                  'Product Quantity Available',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
+                child: Text(
+                  widget.prod_quantity,
                   style: TextStyle(color: Colors.black),
                 ),
               ),

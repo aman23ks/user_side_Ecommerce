@@ -177,7 +177,8 @@ class Single_prod extends StatelessWidget {
                         prod_detail_picture: product.images[0],
                         prod_detail_price: product.price.toString(),
                         prod_description: product.description,
-                        prod_sizes: product.sizes,
+                        prod_sizes: product.sizes.toList(),
+                        prod_quantity: product.quantity.toString(),
                       )));
             },
             child: GridTile(
