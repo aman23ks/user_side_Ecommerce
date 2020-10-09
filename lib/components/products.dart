@@ -172,13 +172,15 @@ class Single_prod extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => ProductDetails(
-                        prod_detail_name: product.name,
-                        prod_brand: product.brand,
-                        prod_detail_picture: product.images[0],
-                        prod_detail_price: product.price.toString(),
-                        prod_description: product.description,
-                        prod_sizes: product.sizes.toList(),
-                        prod_quantity: product.quantity.toString(),
+//                        prod_detail_name: product.name,
+//                        prod_brand: product.brand,
+//                        prod_detail_picture: product.images[0],
+//                        prod_detail_price: product.price.toString(),
+//                        prod_description: product.description,
+//                        prod_sizes: product.sizes.toList(),
+//                        prod_quantity: product.quantity.toString(),
+//                        prod_sale: product.sale,
+                        product: product,
                       )));
             },
             child: GridTile(
@@ -201,6 +203,9 @@ class Single_prod extends StatelessWidget {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
+//                  trailing: Text(
+//                    product.sale ? "Sale" : "",
+//                  ),
                 ),
               ),
               child: Image.network(

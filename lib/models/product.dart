@@ -12,6 +12,7 @@ class Product {
   static const FEATURED = "featured";
   static const SALE = "sale";
   static const DESCRIPTION = "description";
+  static const COLOR = "colors";
 
   String _id;
   String _name;
@@ -21,6 +22,7 @@ class Product {
   int _quantity;
   List _sizes;
   List _images;
+  List _color;
   bool _featured;
   bool _sale;
   String _description;
@@ -34,6 +36,7 @@ class Product {
   int get quantity => _quantity;
   List get sizes => _sizes;
   List get images => _images;
+  List get color => _color;
   bool get featured => _featured;
   bool get sale => _sale;
   String get description => _description;
@@ -51,5 +54,6 @@ class Product {
     _featured = data[FEATURED];
     _sale = data[SALE];
     _description = data[DESCRIPTION];
+    _color = data[COLOR];
   }
 }

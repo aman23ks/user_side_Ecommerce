@@ -3,9 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/Home.dart';
+import 'package:shopapp_flutter/Provider/app_provider.dart';
 
 import 'Pages/Splash.dart';
-import 'Provider/app_provider.dart';
+import 'Provider/product_provider.dart';
 import 'Provider/user_provider.dart';
 
 void main() async {
@@ -14,6 +15,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: UserProvider.initialize()),
+      ChangeNotifierProvider.value(value: ProductProvider()),
       ChangeNotifierProvider.value(value: AppProvider()),
     ],
     child: MaterialApp(

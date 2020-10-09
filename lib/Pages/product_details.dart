@@ -1,34 +1,53 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/Home.dart';
+import 'package:shopapp_flutter/Provider/app_provider.dart';
+import 'package:shopapp_flutter/Provider/user_provider.dart';
 import 'package:shopapp_flutter/models/product.dart';
 
 class ProductDetails extends StatefulWidget {
-  final prod_detail_name;
-  final prod_detail_price;
-  final prod_brand;
-  final prod_detail_picture;
-  final prod_description;
-  final prod_sizes;
-  final prod_quantity;
-  ProductDetails({
-    this.prod_detail_name,
-    this.prod_brand,
-    this.prod_detail_picture,
-    this.prod_detail_price,
-    this.prod_description,
-    this.prod_sizes,
-    this.prod_quantity,
-  });
+//  final prod_detail_name;
+//  final prod_detail_price;
+//  final prod_brand;
+//  final prod_detail_picture;
+//  final prod_description;
+//  final prod_sizes;
+//  final prod_quantity;
+//  final prod_sale;
+//  ProductDetails({
+//    this.prod_detail_name,
+//    this.prod_brand,
+//    this.prod_detail_picture,
+//    this.prod_detail_price,
+//    this.prod_description,
+//    this.prod_sizes,
+//    this.prod_quantity,
+//    this.prod_sale,
+//  });
+
+  final Product product;
+
+  const ProductDetails({Key key, this.product}) : super(key: key);
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  final _key = GlobalKey<ScaffoldState>();
+  String _color = "";
+  String _size = "";
+  bool colorBoolean = false;
+  bool sizeBoolean = false;
+  bool like = false;
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context);
+    final appProvider = Provider.of<AppProvider>(context);
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         elevation: 0.1,
         title: InkWell(
@@ -58,7 +77,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 color: Colors.white,
                 child: Center(
                   child: Image.network(
-                    widget.prod_detail_picture,
+                    widget.product.images[0],
                   ),
                 ),
               ),
@@ -67,7 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   color: Colors.white70,
                   child: ListTile(
                     leading: Text(
-                      widget.prod_detail_name,
+                      widget.product.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -77,7 +96,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            widget.prod_brand,
+                            widget.product.brand,
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.grey,
@@ -86,7 +105,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         Expanded(
                           child: Text(
-                            "\$" + widget.prod_detail_price,
+                            "\$" + widget.product.price.toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.red,
@@ -108,7 +127,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   elevation: 0.2,
                   color: Colors.white,
                   onPressed: () {
-                    var sizes = widget.prod_sizes;
+                    var sizes = widget.product.sizes;
                     showGeneralDialog(
                         context: context,
                         pageBuilder: (context, anim1, anim2) {},
@@ -136,7 +155,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           itemCount: sizes.length,
                                           itemBuilder: (_, index) {
                                             return FlatButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                setState(() {
+                                                  sizeBoolean = false;
+                                                });
+                                                _size = sizes[index];
+                                                setState(() {
+                                                  sizeBoolean = true;
+                                                });
+                                                Navigator.pop(context);
+                                              },
                                               child: Text(sizes[index]),
                                               materialTapTargetSize:
                                                   MaterialTapTargetSize.padded,
@@ -149,7 +177,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   textColor: Colors.grey,
                   child: Row(
                     children: <Widget>[
-                      Expanded(child: Text('Size')),
+                      Expanded(child: sizeBoolean ? Text(_size) : Text('Size')),
                       Expanded(child: Icon(Icons.arrow_drop_down)),
                     ],
                   ),
@@ -157,35 +185,61 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
               Expanded(
                 child: MaterialButton(
-                  color: Colors.white,
                   elevation: 0.2,
+                  color: Colors.white,
                   onPressed: () {
-                    showDialog(
+                    var color = widget.product.color;
+                    showGeneralDialog(
                         context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Color'),
-                            content: Text('Choose the color'),
-                            actions: <Widget>[
-                              MaterialButton(
-                                child: Text(
-                                  'Close',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  ),
+                        pageBuilder: (context, anim1, anim2) {},
+                        barrierDismissible: true,
+                        barrierColor: Colors.black.withOpacity(0.4),
+                        barrierLabel: '',
+                        transitionDuration: Duration(milliseconds: 1000),
+                        transitionBuilder: (context, a1, a2, widget) {
+                          final curvedValue =
+                              Curves.easeInOutBack.transform(a1.value) - 1.0;
+                          return Transform(
+                              transform: Matrix4.translationValues(
+                                  0.0, curvedValue * -200, 0.0),
+                              child: Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                elevation: 24.0,
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height - 450,
+                                  width: MediaQuery.of(context).size.width - 50,
+                                  child: Padding(
+                                      padding: EdgeInsets.all(13.0),
+                                      child: ListView.builder(
+                                          itemCount: color.length,
+                                          itemBuilder: (_, index) {
+                                            return FlatButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  colorBoolean = false;
+                                                });
+                                                _color = color[index];
+                                                setState(() {
+                                                  colorBoolean = true;
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(color[index]),
+                                              materialTapTargetSize:
+                                                  MaterialTapTargetSize.padded,
+                                            );
+                                          })),
                                 ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
+                              ));
                         });
                   },
                   textColor: Colors.grey,
                   child: Row(
                     children: <Widget>[
-                      Expanded(child: Text('Color')),
+                      Expanded(
+                          child: colorBoolean ? Text(_color) : Text('Color')),
                       Expanded(child: Icon(Icons.arrow_drop_down)),
                     ],
                   ),
@@ -241,16 +295,45 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  //TODO: add to cart logic
+                  appProvider.changeIsLoading();
+                  if (await user.addToCart(
+                      product: widget.product, size: _size, color: _color)) {
+                    print("item added to cart");
+                    _key.currentState.showSnackBar(SnackBar(
+                      content: Text("Added to Cart!"),
+                    ));
+                    user.reloadUserModel();
+                    appProvider.changeIsLoading();
+                    return;
+                  } else {
+                    _key.currentState.showSnackBar(SnackBar(
+                      content: Text("Added to Cart!"),
+                    ));
+                    appProvider.changeIsLoading();
+                    return;
+                  }
+                },
                 icon: Icon(
                   Icons.add_shopping_cart,
                   color: Colors.red,
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (like) {
+                    setState(() {
+                      like = false;
+                    });
+                  } else {
+                    setState(() {
+                      like = true;
+                    });
+                  }
+                },
                 icon: Icon(
-                  Icons.favorite_border,
+                  like ? Icons.favorite : Icons.favorite_border,
                   color: Colors.red,
                 ),
               ),
@@ -259,7 +342,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Divider(),
           ListTile(
             title: Text('Product Details'),
-            subtitle: Text(widget.prod_description),
+            subtitle: Text(widget.product.description),
           ),
           Divider(),
           Row(
@@ -274,7 +357,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Padding(
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
                 child: Text(
-                  widget.prod_detail_name,
+                  widget.product.name,
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -292,7 +375,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Padding(
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
                 child: Text(
-                  widget.prod_brand,
+                  widget.product.brand,
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -303,7 +386,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Padding(
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
                 child: Text(
-                  'Product Condition ',
+                  'Product Condition',
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
@@ -328,7 +411,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               Padding(
                 padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
                 child: Text(
-                  widget.prod_quantity,
+                  widget.product.quantity.toString(),
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -455,10 +538,15 @@ class Similar_single_prod extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ProductDetails(
-                    prod_detail_name: product.name,
-                    prod_brand: product.brand,
-                    prod_detail_picture: product.images[0],
-                    prod_detail_price: product.price.toString(),
+//                    prod_detail_name: product.name,
+//                    prod_brand: product.brand,
+//                    prod_detail_picture: product.images[0],
+//                    prod_detail_price: product.price.toString(),
+//                    prod_description: product.description,
+//                    prod_sizes: product.sizes.toList(),
+//                    prod_quantity: product.quantity.toString(),
+//                    prod_sale: product.sale,
+                    product: product,
                   ),
                 ),
               );

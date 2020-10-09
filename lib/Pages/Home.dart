@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/cart.dart';
-import 'package:shopapp_flutter/Provider/app_provider.dart';
+import 'package:shopapp_flutter/Provider/product_provider.dart';
 import 'package:shopapp_flutter/Provider/user_provider.dart';
 import 'package:shopapp_flutter/components/horizontal_listview.dart';
 import 'package:shopapp_flutter/components/products.dart';
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    AppProvider appProvider = Provider.of<AppProvider>(context);
+    ProductProvider appProvider = Provider.of<ProductProvider>(context);
     final user = Provider.of<UserProvider>(context);
     Widget image_carousel = Container(
       height: 200.0,

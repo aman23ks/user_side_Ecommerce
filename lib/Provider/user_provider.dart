@@ -2,7 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shopapp_flutter/db/users.dart';
+import 'package:shopapp_flutter/models/cart_item.dart';
+import 'package:shopapp_flutter/models/product.dart';
 import 'package:shopapp_flutter/models/user_model.dart';
+import 'package:uuid/uuid.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
@@ -70,8 +73,39 @@ class UserProvider with ChangeNotifier {
     } else {
       _user = user;
       _userModel = await _userServices.getUserById(user.uid);
+//      print("cart items are : ${_userModel.cart.length}");
       _status = Status.Authenticated;
     }
+    notifyListeners();
+  }
+
+  Future<bool> addToCart({Product product, String size, String color}) async {
+    try {
+      var uuid = Uuid();
+      String cartItemId = uuid.v4();
+      List<CartItemModel> cart = _userModel.cart;
+
+      Map cartItem = {
+        "id": cartItemId,
+        "name": product.name,
+        "images": product.images,
+        "product_id": product.id,
+        "price": product.price.toString(),
+        "sizes": size,
+        "color": color,
+      };
+
+      CartItemModel item = CartItemModel.fromMap(cartItem);
+      // print("cart items are : ${cart.toString()}");
+      _userServices.addToCart(userID: _user.uid, cartItem: item);
+      return true;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> reloadUserModel() async {
+    _userModel = await _userServices.getUserById(user.uid);
     notifyListeners();
   }
 }
