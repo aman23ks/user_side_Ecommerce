@@ -302,7 +302,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       product: widget.product, size: _size, color: _color)) {
                     print("item added to cart");
                     _key.currentState.showSnackBar(SnackBar(
-                      content: Text("Added to Cart!"),
+                      content: Text("Added to Cart!"), //
                     ));
                     user.reloadUserModel();
                     appProvider.changeIsLoading();

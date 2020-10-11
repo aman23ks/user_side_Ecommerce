@@ -73,7 +73,7 @@ class UserProvider with ChangeNotifier {
     } else {
       _user = user;
       _userModel = await _userServices.getUserById(user.uid);
-//      print("cart items are : ${_userModel.cart.length}");
+      //   print("cart items are : ${_userModel.cart}");
       _status = Status.Authenticated;
     }
     notifyListeners();
@@ -100,7 +100,8 @@ class UserProvider with ChangeNotifier {
       _userServices.addToCart(userID: _user.uid, cartItem: item);
       return true;
     } catch (e) {
-      print(e);
+      print(e.toString());
+      return false;
     }
   }
 
