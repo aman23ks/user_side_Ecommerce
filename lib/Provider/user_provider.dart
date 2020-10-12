@@ -96,7 +96,7 @@ class UserProvider with ChangeNotifier {
       };
 
       CartItemModel item = CartItemModel.fromMap(cartItem);
-      // print("cart items are : ${cart.toString()}");
+      //  print("cart items are : ${cart.toString()}");
       _userServices.addToCart(userID: _user.uid, cartItem: item);
       return true;
     } catch (e) {

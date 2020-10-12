@@ -13,12 +13,13 @@ class UserModel {
   String _password;
   String _name;
 
+  List<CartItemModel> _cart;
+
   String get id => _id;
   String get email => _email;
   String get password => _password;
   String get name => _name;
-
-  List<CartItemModel> cart;
+  List get cart => _cart;
 
   UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     Map data = snapshot.data();
@@ -26,7 +27,7 @@ class UserModel {
     _email = data[EMAIL];
     _password = data[PASSWORD];
     _name = data[NAME];
-    cart = _convertCartItems(data[CART] ?? []);
+    _cart = _convertCartItems(data[CART] ?? []);
   }
 
   List<CartItemModel> _convertCartItems(List cart) {

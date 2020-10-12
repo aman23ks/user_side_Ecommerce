@@ -298,9 +298,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                 onPressed: () async {
                   //TODO: add to cart logic
                   appProvider.changeIsLoading();
-                  if (await user.addToCart(
-                      product: widget.product, size: _size, color: _color)) {
-                    print("item added to cart");
+                  bool success = await user.addToCart(
+                      product: widget.product, size: _size, color: _color);
+                  if (success) {
                     _key.currentState.showSnackBar(SnackBar(
                       content: Text("Added to Cart!"), //
                     ));

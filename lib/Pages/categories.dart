@@ -83,57 +83,84 @@ class _CategoryState extends State<Category> {
                   var product = Product.fromSnapshot(snapshot.data.docs[index]);
                   return Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Card(
-                      child: Hero(
-                        tag: Text('Hero 1'),
-                        child: Material(
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ProductDetails(
-                                    product: widget.product,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: GridTile(
-                              footer: Container(
-                                color: Colors.white70,
-                                child: ListTile(
-                                  leading: Text(
-                                    product.name,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  title: Text(
-                                    "\$" + product.price.toString(),
-                                    style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w800),
-                                  ),
-                                  subtitle: Text(
-                                    product.brand,
-                                    style: TextStyle(
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              child: Image.network(
-                                product.images[0],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    child: Single_prod(
+                      product: product,
                     ),
                   );
                 });
           }
         },
+      ),
+    );
+  }
+}
+
+class Single_prod extends StatelessWidget {
+//  final prod_Name;
+//  final prod_picture;
+//  final prod_old_price;
+//  final prod_price;
+//  Single_prod(
+//      {this.prod_Name,
+//      this.prod_old_price,
+//      this.prod_picture,
+//      this.prod_price});
+  final Product product;
+  Single_prod({this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Hero(
+        tag: Text('Hero 1'),
+        child: Material(
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+//                        prod_detail_name: product.name,
+//                        prod_brand: product.brand,
+//                        prod_detail_picture: product.images[0],
+//                        prod_detail_price: product.price.toString(),
+//                        prod_description: product.description,
+//                        prod_sizes: product.sizes.toList(),
+//                        prod_quantity: product.quantity.toString(),
+//                        prod_sale: product.sale,
+                        product: product,
+                      )));
+            },
+            child: GridTile(
+              footer: Container(
+                color: Colors.white70,
+                child: ListTile(
+                  leading: Text(
+                    product.name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  title: Text(
+                    "\$" + product.price.toString(),
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.w800),
+                  ),
+                  subtitle: Text(
+                    product.brand,
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+//                  trailing: Text(
+//                    product.sale ? "Sale" : "",
+//                  ),
+                ),
+              ),
+              child: Image.network(
+                product.images[0],
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

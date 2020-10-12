@@ -30,6 +30,7 @@ class CartItemModel {
     _price = data[PRICE];
     _size = data[SIZE];
     _color = data[COLOR];
+    _images = data[IMAGES];
   }
 
   Map toMap() => {
