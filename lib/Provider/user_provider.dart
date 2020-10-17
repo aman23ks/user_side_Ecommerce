@@ -73,7 +73,10 @@ class UserProvider with ChangeNotifier {
     } else {
       _user = user;
       _userModel = await _userServices.getUserById(user.uid);
-      //   print("cart items are : ${_userModel.cart}");
+      print("cart items are : ${_userModel.cart.length}");
+      print("cart items are : ${_userModel.cart.length}");
+      print("cart items are : ${_userModel.cart.length}");
+      print("cart items are : ${_userModel.cart.length}");
       _status = Status.Authenticated;
     }
     notifyListeners();

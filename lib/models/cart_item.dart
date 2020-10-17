@@ -10,7 +10,7 @@ class CartItemModel {
   String _id;
   String _name;
   String _images;
-  String _product_id;
+  String _productId;
   int _price;
   String _size;
   String _color;
@@ -18,7 +18,7 @@ class CartItemModel {
   String get id => _id;
   String get name => _name;
   String get images => _images;
-  String get product_id => _product_id;
+  String get productId => _productId;
   int get price => _price;
   String get size => _size;
   String get color => _color;
@@ -26,7 +26,7 @@ class CartItemModel {
   CartItemModel.fromMap(Map data) {
     _name = data[NAME];
     _id = data[ID];
-    _product_id = data[PRODUCT_ID];
+    _productId = data[PRODUCT_ID];
     _price = data[PRICE];
     _size = data[SIZE];
     _color = data[COLOR];
@@ -37,7 +37,7 @@ class CartItemModel {
         ID: _id,
         IMAGES: _images,
         NAME: _name,
-        PRODUCT_ID: _product_id,
+        PRODUCT_ID: _productId,
         PRICE: _price,
         SIZE: _size,
         COLOR: _color,

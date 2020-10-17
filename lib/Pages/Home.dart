@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/cart.dart';
+import 'package:shopapp_flutter/Pages/favourites.dart';
 import 'package:shopapp_flutter/Provider/product_provider.dart';
 import 'package:shopapp_flutter/Provider/user_provider.dart';
 import 'package:shopapp_flutter/components/horizontal_listview.dart';
@@ -109,7 +110,10 @@ class _HomePageState extends State<HomePage> {
               accountEmail: Text('nks.ns84@gmail.com'),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => HomePage()));
+              },
               child: ListTile(
                 title: Text('Home Page'),
                 leading: Icon(
@@ -152,7 +156,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Favourite()));
+              },
               child: ListTile(
                 title: Text('Favourite'),
                 leading: Icon(

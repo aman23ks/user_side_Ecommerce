@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shopapp_flutter/Pages/Home.dart';
 import 'package:shopapp_flutter/Provider/app_provider.dart';
 import 'package:shopapp_flutter/Provider/user_provider.dart';
+import 'package:shopapp_flutter/db/favourite.dart';
 import 'package:shopapp_flutter/models/product.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -41,7 +42,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool colorBoolean = false;
   bool sizeBoolean = false;
   bool like = false;
-
+  Fav _favourite = Fav();
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
@@ -325,10 +326,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                   if (like) {
                     setState(() {
                       like = false;
+                      _favourite.createFav(like);
                     });
                   } else {
                     setState(() {
                       like = true;
+                      _favourite.createFav(like);
                     });
                   }
                 },
@@ -516,15 +519,6 @@ class _Similar_ProductsState extends State<Similar_Products> {
 }
 
 class Similar_single_prod extends StatelessWidget {
-//  final prod_Name;
-//  final prod_picture;
-//  final prod_old_price;
-//  final prod_price;
-//  Similar_single_prod(
-//      {this.prod_Name,
-//      this.prod_old_price,
-//      this.prod_picture,
-//      this.prod_price});
   final Product product;
   Similar_single_prod({this.product});
   @override
@@ -538,14 +532,6 @@ class Similar_single_prod extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => ProductDetails(
-//                    prod_detail_name: product.name,
-//                    prod_brand: product.brand,
-//                    prod_detail_picture: product.images[0],
-//                    prod_detail_price: product.price.toString(),
-//                    prod_description: product.description,
-//                    prod_sizes: product.sizes.toList(),
-//                    prod_quantity: product.quantity.toString(),
-//                    prod_sale: product.sale,
                     product: product,
                   ),
                 ),
